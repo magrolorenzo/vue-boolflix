@@ -35,8 +35,9 @@
                                 <li class="movie-original-language">
                                     Original Language: {{movie.original_language}}
                                 </li>
-                                <ul class="stars-container">
-                                    <li v-for="star in get_score(movie.vote_average)">★</span>
+                                <ul class="stars-container">Rating:
+                                    <li class="yellow-star" v-for="star in get_score(movie.vote_average)">★</li>
+                                    <li v-for="star in (5-get_score(movie.vote_average))">★</li>
                                 </ul>
                                 <!-- <li class="movie-vote-avarage">
                                     Score: {{movie.vote_average/2}}

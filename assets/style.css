@@ -62,6 +62,9 @@
 .stars-container{
     display: flex;
     list-style: none;
-    color: yellow;
     font-size: 15px;
+}
+
+.yellow-star{
+    color: gold;
 }
