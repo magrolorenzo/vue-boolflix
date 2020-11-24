@@ -24,23 +24,27 @@
                     </div>
 
                     <ul class="movies-wrapper">
-                        <li v-for="(movie, index) in movies_array">
+                        <li v-for="(movie, index) in total_array">
                             <ul class="movie-card">
                                 <li class="movie-title">
-                                    Title: {{movie.title}}
+                                    Title: {{movie.title ? movie.title : movie.name}}
                                 </li>
                                 <li class="movie-original-title">
-                                    Original Title: {{movie.original_title}}
+                                    Original Title: {{movie.original_title ? movie.original_title : movie.original_name}}
                                 </li>
                                 <li class="movie-original-language">
-                                    Original Language: {{movie.original_language}}
+                                    <strong>Original Language:</strong>
+                                    <div class="flag-container">
+                                        <img class="flag-img":src="'./img/flags/'+movie.original_language+'.png'" :alt="movie.original_language">
+                                    </div>
                                 </li>
-                                <ul class="stars-container">Rating:
+                                <ul class="stars-container">
+                                    <strong>Rating</strong>
                                     <li class="yellow-star" v-for="star in get_score(movie.vote_average)">★</li>
                                     <li v-for="star in (5-get_score(movie.vote_average))">★</li>
                                 </ul>
                                 <!-- <li class="movie-vote-avarage">
-                                    Score: {{movie.vote_average/2}}
+                                    Score: {{movie.vote_average}}
                                 </li> -->
                             </ul>
                         </li>

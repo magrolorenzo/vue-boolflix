@@ -3,11 +3,12 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+
 }
 
 .container{
     height: 100%;
-    background-color: lightgrey;
+    background-color: #323232;
 }
 
 .find-a-movie{
@@ -22,7 +23,7 @@
     width: 50%;
     height: 60px;
     padding: 10px;
-    border: 2px solid black;
+    border: 2px solid lightgrey;
     border-bottom: none;
 }
 
@@ -44,19 +45,21 @@
     width: 50%;
     min-height: calc(100vh - 140px);
     padding: 10px;
-    border: 2px solid black;
+    border: 2px solid lightgrey;
     list-style: none;
 }
 
 .movie-card{
+    font-size: 18px;
     list-style: none;
     padding: 5px;
-    border: 1px solid green;
+    border: 1px solid lightgrey;
+    color: white;
     border-top: none
 }
 
 .movies-wrapper li:nth-child(1) ul:nth-child(1){
-    border: 1px solid green;
+    border: 1px solid lightgrey;
 }
 
 .stars-container{
@@ -67,4 +70,15 @@
 
 .yellow-star{
     color: gold;
+}
+
+.movie-original-language{
+    display: flex;
+}
+
+.flag-container{
+    margin-left: 5px;
+}
+.flag-img{
+    width: 20px;
 }

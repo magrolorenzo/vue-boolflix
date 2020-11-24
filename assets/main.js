@@ -14,39 +14,6 @@
 // lingua originale
 // voto
 
-var app = new Vue({
-    el:"#root",
-
-    data:{
-        search:"",
-        movies_array:[]
-    },
-
-    methods:{
-
-        search_movie(){
-            axios.get("https://api.themoviedb.org/3/search/movie" , {
-                params: {
-                    api_key: "9288442951ff78eee0e3f39d2a7b597e",
-                    query: this.search
-                }}
-            ).then((searched_film) =>{
-                this.movies_array=(searched_film.data.results);
-                console.log(this.movies_array);
-            });
-        },
-
-        get_score(score){
-            console.log("Voto reale " + score);
-            let int = Math.round(parseFloat(score)/2);
-            console.log("Voto diviso " + int);
-            return int;
-        }
-    }
-
-})
-
-
 // MILESTONE 2
 // La seconda milestone è a sua volta suddivisa in 3 punti:
 
@@ -62,6 +29,52 @@ var app = new Vue({
 // Quindi andremo ad inserire solamente le bandierine che sappiamo di avere,
 // mentre per le altre lingue di cui non abbiamo previsto la bandierina,
 // lasciamo il codice della lingua testuale
+var app = new Vue({
+    el:"#root",
+
+    data:{
+        search:"",
+        movies_array:[],
+        tv_array:[],
+        total_array:[]
+    },
+
+    methods:{
+
+        search_movie(){
+
+            // Get per recuperare la lista dei film
+            axios.get("https://api.themoviedb.org/3/search/movie" , {
+                params: {
+                    api_key: "9288442951ff78eee0e3f39d2a7b597e",
+                    query: this.search
+                }}
+            ).then((searched_movie) =>{
+                this.movies_array = (searched_movie.data.results);
+            });
+
+            // Get per recuperare la lista dei tv show
+            axios.get("https://api.themoviedb.org/3/search/tv" , {
+                params: {
+                    api_key: "9288442951ff78eee0e3f39d2a7b597e",
+                    query: this.search
+                }}
+            ).then((searched_tv_show) =>{
+                this.tv_array = (searched_tv_show.data.results);
+                // Concateno i due array dei risultati dei film e tv shows
+                this.total_array = this.movies_array.concat(this.tv_array);
+            });
+        },
+
+        get_score(score){
+            // TRasformo la stringa in numero con la virgola, divido per due e arrotondo
+            let int = Math.round(parseFloat(score)/2);
+            return int;
+        }
+
+    }
+
+})
 
 // 3- aggiungere ai risultati anche le serie tv.
 // Attenzione che alcune chiavi per le serie tv sono diverse da quelle dei film,
