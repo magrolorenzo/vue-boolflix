@@ -58,3 +58,10 @@
 .movies-wrapper li:nth-child(1) ul:nth-child(1){
     border: 1px solid green;
 }
+
+.stars-container{
+    display: flex;
+    list-style: none;
+    color: yellow;
+    font-size: 15px;
+}

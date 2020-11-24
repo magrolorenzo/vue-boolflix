@@ -34,29 +34,17 @@ var app = new Vue({
                 this.movies_array=(searched_film.data.results);
                 console.log(this.movies_array);
             });
+        },
+
+        get_score(score){
+            console.log("Voto reale " + score);
+            let int = Math.round(parseFloat(score)/2);
+            console.log("Voto diviso " + int);
+            return int;
         }
     }
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // MILESTONE 2
