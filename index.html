@@ -17,12 +17,28 @@
             <div class="container">
 
                 <div class="find-a-movie">
-                    <div>
-                        <input type="text" placeholder="Find a movie..." v-model="search" @keyup.enter="search_movie" id="search-bar">
+                    <div class="search-section">
+                        <input type="text" placeholder="Find a movie..." v-model="search" id="search-bar">
+                        <button type="button" name="button" @click="search_movie">Search</button>
                     </div>
 
                     <ul class="movies-wrapper">
-                        <li v-for="(movie, index) in movies_array">{{movie.original_title}}</li>
+                        <li v-for="(movie, index) in movies_array">
+                            <ul class="movie-card">
+                                <li class="movie-title">
+                                    Title: {{movie.title}}
+                                </li>
+                                <li class="movie-original-title">
+                                    Original Title: {{movie.original_title}}
+                                </li>
+                                <li class="movie-original-language">
+                                    Original Language: {{movie.original_language}}
+                                </li>
+                                <li class="movie-vote-avarage">
+                                    Score: {{movie.vote_average}}
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
 
                 </div>

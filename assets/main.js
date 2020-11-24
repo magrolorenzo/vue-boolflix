@@ -5,8 +5,7 @@
 //ricordandoci di passare la nostra API key e la query di ricerca,
 // ossia il testo inserito dall'utente nell'input.
 
-// 9288442951ff78eee0e3f39d2a7b597e
-// https://api.themoviedb.org/3/movie
+// api_key: 9288442951ff78eee0e3f39d2a7b597e
 
 // Con i risultati che riceviamo, visualizziamo in pagina una card per ogni film,
 // stampando per ciascuno:
