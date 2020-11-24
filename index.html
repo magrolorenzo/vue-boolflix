@@ -13,13 +13,20 @@
     </head>
     <body>
         <div id="root">
+
             <div class="container">
-                <div class="">
-                    <input type="text" name="" value="" placeholder="Find a movie..." v-model="search" @keyup.enter="search_movie">
+
+                <div class="find-a-movie">
+                    <div>
+                        <input type="text" placeholder="Find a movie..." v-model="search" @keyup.enter="search_movie" id="search-bar">
+                    </div>
+
+                    <ul class="movies-wrapper">
+                        <li v-for="(movie, index) in movies_array">{{movie.original_title}}</li>
+                    </ul>
+
                 </div>
-                <ul class="movies-wrapper">
-                    <li v-for="movie in movies_array">{{movie.original_title}}</li>
-                </ul>
+
             </div>
         </div>
         <script src="assets/main.js" charset="utf-8"></script>

@@ -19,7 +19,7 @@ var app = new Vue({
     el:"#root",
 
     data:{
-        search:"batman",
+        search:"",
         movies_array:[]
     },
 
@@ -36,7 +36,6 @@ var app = new Vue({
                 console.log(this.movies_array);
             });
         }
-
     }
 
 })
