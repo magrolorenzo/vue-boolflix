@@ -9,9 +9,19 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-        <script src="assets/main.js" charset="utf-8"></script>
-        <title></title>
+        <title>Boolflix</title>
     </head>
     <body>
+        <div id="root">
+            <div class="container">
+                <div class="">
+                    <input type="text" name="" value="" placeholder="Find a movie..." v-model="search" @keyup.enter="search_movie">
+                </div>
+                <ul class="movies-wrapper">
+                    <li v-for="movie in movies_array">{{movie.original_title}}</li>
+                </ul>
+            </div>
+        </div>
+        <script src="assets/main.js" charset="utf-8"></script>
     </body>
 </html>

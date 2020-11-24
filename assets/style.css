@@ -4,3 +4,14 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
+
+.container{
+    width: 90%;
+    height: 100vw;
+}
+
+.movies-wrapper{
+    width: 100%;
+    margin: auto;
+    list-style: none;
+}
