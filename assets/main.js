@@ -42,14 +42,18 @@ var app = new Vue({
         search: "",
         text_searched: "",
 
+        // Array dei risultati movie
         movies_array: [],
+        // Array dei risultati dei TV show
         tv_array: [],
-
+        // Array dei risultati totali
         total_array: [],
 
         isSearching: false,
 
-        flags: ['cn', 'de', 'en', 'es', 'fr', 'it', 'ja', 'ko', 'no', 'ru']
+        flags: ['cn', 'de', 'en', 'es', 'fr', 'it', 'ja', 'ko', 'no', 'ru'],
+        api_key: "9288442951ff78eee0e3f39d2a7b597e",
+        db_root_path: "https://api.themoviedb.org/3/search/"
     },
 
     methods:{
@@ -59,13 +63,12 @@ var app = new Vue({
             if(this.search.trim()){
 
                 this.isSearching = true;
-
                 this.text_searched = this.search;
 
                 // Get per recuperare la lista dei film
-                axios.get("https://api.themoviedb.org/3/search/movie" , {
+                axios.get((this.db_root_path + "movie") , {
                     params: {
-                        api_key: "9288442951ff78eee0e3f39d2a7b597e",
+                        api_key: this.api_key,
                         query: this.text_searched
                     }}
                 ).then((searched_movie) =>{
@@ -73,9 +76,9 @@ var app = new Vue({
                 });
 
                 // Get per recuperare la lista dei tv show
-                axios.get("https://api.themoviedb.org/3/search/tv" , {
+                axios.get((this.db_root_path + "tv") , {
                     params: {
-                        api_key: "9288442951ff78eee0e3f39d2a7b597e",
+                        api_key:  this.api_key,
                         query: this.text_searched
                     }}
                 ).then((searched_tv_show) =>{
@@ -83,6 +86,8 @@ var app = new Vue({
                     // Concateno i due array dei risultati dei film e tv shows
                     this.total_array = this.movies_array.concat(this.tv_array);
                     this.isSearching = false;
+                    this.search = "";
+
                 });
             }
         },
