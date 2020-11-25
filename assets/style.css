@@ -7,65 +7,91 @@
 }
 
 .container{
-    height: 100%;
-    background-color: #525252;
-}
-
-.find-a-movie{
-    width: 90%;
     min-height: 100vh;
-    padding: 40px;
-    margin: auto;
+    background-color: #141414;
+    color: white;
 }
 
-/* Sezione di ricerca */
-.search-section{
-    width: 50%;
-    height: 60px;
+#navbar{
+    height: 120px;
     padding: 10px;
-    border: 2px solid lightgrey;
-    border-bottom: none;
+    background-color: rgba(0,0,0, .5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container{
+    width: 30%;
+}
+
+/* Sezione di ricerca  */
+.search-section{
+   text-align: right;
+   width: 30%;
 }
 
 .search-section button{
-    height: 40px;
-    font-size: 20px;
-    padding: 2px;
+   height: 40px;
+   font-size: 20px;
+   padding: 2px;
 }
 
 #search-bar{
-    width: 300px;
-    height: 40px;
-    margin-bottom: 10px ;
-    font-size: 20px;
+   width: 300px;
+   height: 40px;
+   margin-bottom: 10px ;
+   font-size: 20px;
 }
 
-/* Sezione lista film */
-.movies-wrapper{
-    width: 50%;
-    min-height: calc(100vh - 140px);
+
+/* Parte centrale */
+.find-a-movie{
+    width: 90%;
+    min-height: calc(100vh - 120px);
+    padding: 40px;
+    margin: auto;
+    /* border-left: 1px solid red;
+    border-right: 1px solid red; */
+}
+
+.text-results{
+    height: 50px;
     padding: 10px;
-    border: 2px solid lightgrey;
+}
+
+.searched{
+    font-style: italic;
+}
+.movie-results{
+    min-height: calc( 100% - 50px );
+    /* border: 2px solid lightgrey; */
+}
+
+/* Sezione card risultati */
+.movies-wrapper{
+    padding: 10px;
+    display:flex;
+    flex-wrap: wrap;
     list-style: none;
 }
 
 .movie-card{
+    width: 230px;
+    height: 350px;
+    margin: 15px;
     font-size: 18px;
     list-style: none;
     padding: 5px;
     border: 1px solid lightgrey;
-    color: white;
-    border-top: none
-}
-
-.movies-wrapper li:nth-child(1) ul:nth-child(1){
-    border: 1px solid lightgrey;
+    border-radius: 4px;
+    font-size: 15px;
 }
 
 .stars-container{
     display: flex;
     list-style: none;
-    font-size: 15px;
+
 }
 
 .yellow-star{

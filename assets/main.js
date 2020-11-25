@@ -29,41 +29,62 @@
 // Quindi andremo ad inserire solamente le bandierine che sappiamo di avere,
 // mentre per le altre lingue di cui non abbiamo previsto la bandierina,
 // lasciamo il codice della lingua testuale
+
+
+// 3- aggiungere ai risultati anche le serie tv.
+// Attenzione che alcune chiavi per le serie tv sono diverse da quelle dei film,
+// come ad esempio "title" per i film e "name" per le serie
+
 var app = new Vue({
     el:"#root",
 
     data:{
-        search:"",
-        movies_array:[],
-        tv_array:[],
-        total_array:[]
+        search: "",
+        text_searched: "",
+
+        movies_array: [],
+        tv_array: [],
+
+        total_array: [],
+
+        isSearching: false,
+
+        flags: ['cn', 'de', 'en', 'es', 'fr', 'it', 'ja', 'ko', 'no', 'ru']
     },
 
     methods:{
 
         search_movie(){
 
-            // Get per recuperare la lista dei film
-            axios.get("https://api.themoviedb.org/3/search/movie" , {
-                params: {
-                    api_key: "9288442951ff78eee0e3f39d2a7b597e",
-                    query: this.search
-                }}
-            ).then((searched_movie) =>{
-                this.movies_array = (searched_movie.data.results);
-            });
+            if(this.search.trim()){
 
-            // Get per recuperare la lista dei tv show
-            axios.get("https://api.themoviedb.org/3/search/tv" , {
-                params: {
-                    api_key: "9288442951ff78eee0e3f39d2a7b597e",
-                    query: this.search
-                }}
-            ).then((searched_tv_show) =>{
-                this.tv_array = (searched_tv_show.data.results);
-                // Concateno i due array dei risultati dei film e tv shows
-                this.total_array = this.movies_array.concat(this.tv_array);
-            });
+                this.isSearching = true;
+
+                this.text_searched = this.search;
+
+                // Get per recuperare la lista dei film
+                axios.get("https://api.themoviedb.org/3/search/movie" , {
+                    params: {
+                        api_key: "9288442951ff78eee0e3f39d2a7b597e",
+                        query: this.text_searched
+                    }}
+                ).then((searched_movie) =>{
+                    this.movies_array = (searched_movie.data.results);
+                });
+
+                // Get per recuperare la lista dei tv show
+                axios.get("https://api.themoviedb.org/3/search/tv" , {
+                    params: {
+                        api_key: "9288442951ff78eee0e3f39d2a7b597e",
+                        query: this.text_searched
+                    }}
+                ).then((searched_tv_show) =>{
+                    this.tv_array = (searched_tv_show.data.results);
+                    // Concateno i due array dei risultati dei film e tv shows
+                    this.total_array = this.movies_array.concat(this.tv_array);
+                    this.isSearching = false;
+                });
+            }
         },
 
         get_score(score){
@@ -75,7 +96,3 @@ var app = new Vue({
     }
 
 })
-
-// 3- aggiungere ai risultati anche le serie tv.
-// Attenzione che alcune chiavi per le serie tv sono diverse da quelle dei film,
-// come ad esempio "title" per i film e "name" per le serie
