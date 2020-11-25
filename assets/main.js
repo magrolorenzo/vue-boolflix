@@ -51,11 +51,15 @@ var app = new Vue({
 
         isSearching: false,
 
+        star_char: "★",
         flags: ['cn', 'de', 'en', 'es', 'fr', 'it', 'ja', 'ko', 'no', 'ru'],
         api_key: "9288442951ff78eee0e3f39d2a7b597e",
         db_root_path: "https://api.themoviedb.org/3/search/",
-        img_root_path:"https://image.tmdb.org/t/p/w185/",
-        img_not_found: "./img/not_found.png"
+        img_root_path:"https://image.tmdb.org/t/p/w342/",
+        img_not_found: "./img/not_found.png",
+
+        poster_is_hide: false,
+        current_card: false
     },
 
     methods:{
@@ -91,6 +95,7 @@ var app = new Vue({
                     this.isSearching = false;
                     this.search = "";
 
+
                 });
             }
         },
@@ -99,6 +104,16 @@ var app = new Vue({
             // TRasformo la stringa in numero con la virgola, divido per due e arrotondo
             let int = Math.round(parseFloat(score)/2);
             return int;
+        },
+
+        show_info(movie_index){
+            this.current_card = movie_index;
+            this.poster_is_hide = true;
+        },
+
+        show_poster(){
+            this.current_card = false;
+            this.poster_is_hide =  false;
         }
 
     }

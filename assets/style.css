@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    outline: none;
 
 }
 
@@ -77,24 +78,24 @@
 }
 
 .movie-card{
-    width: 230px;
-    height: 450px;
-    margin: 15px;
+    width: 342px;
+    height: 513px;
+    margin: 20px;
     font-size: 18px;
     list-style: none;
-    padding: 5px;
-    border: 1px solid grey;
+    background-color:rgba(0,0,0, 0.5);
     border-radius: 4px;
-    font-size: 15px;
-}
-
-.movie-poster-container{
-    text-align: center;
-    margin: 10px 0;
+    /* font-size: 15px; */
 }
 
 .movie-poster-container img{
+    width: 100%;
+    object-fit: fill;
     border-radius: 3px;
+}
+
+.infos-container div{
+    margin: 10px 0;
 }
 
 .rating-container{
@@ -119,4 +120,12 @@
 }
 .flag-img{
     width: 20px;
+}
+
+.hide{
+    display: none;
+}
+
+.show{
+    display: block;
 }
