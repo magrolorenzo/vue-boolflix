@@ -71,12 +71,12 @@
                                     <div class="infos-container hide" :class="poster_is_hide && index === current_card ? 'show' : 'hide'" >
                                         <!-- Movie Title -->
                                         <div class="movie-title">
-                                            Title: {{movie.title ? movie.title : movie.name}}
+                                            <strong>Title:</strong>{{movie.title ? movie.title : movie.name}}
                                         </div>
 
                                         <!-- Movie Original Title -->
                                         <div class="movie-original-title">
-                                            Original Title: {{movie.original_title ? movie.original_title : movie.original_name}}
+                                            <strong>Original Title:</strong>{{movie.original_title ? movie.original_title : movie.original_name}}
                                         </div>
 
                                         <!-- Movie Original Language Flag -->
@@ -107,11 +107,16 @@
                                             </div>
                                         </div>
 
+                                        <!-- Overview -->
+                                        <div class="overview-container">
+                                            <strong>Overview:<br></strong>{{movie.overview}}
+                                        </div>
+
                                     </div>
                                 <!-- Chiusura Movie Card -->
-                                </ul>
-                            </li>
-                        </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
