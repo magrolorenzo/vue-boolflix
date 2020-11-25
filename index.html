@@ -59,14 +59,23 @@
                             <li v-for="(movie, index) in total_array">
                                 <ul class="movie-card">
 
+                                    <!-- Poster movie -->
+                                    <li class="movie-poster-container">
+                                        <img v-if="movie.poster_path" :src="img_root_path + movie.poster_path" alt="">
+                                        <img v-else :src="img_not_found" alt="">
+                                    </li>
+
+                                    <!-- Movie Title -->
                                     <li class="movie-title">
                                         Title: {{movie.title ? movie.title : movie.name}}
                                     </li>
 
+                                    <!-- Movie Original Title -->
                                     <li class="movie-original-title">
                                         Original Title: {{movie.original_title ? movie.original_title : movie.original_name}}
                                     </li>
 
+                                    <!-- Movie Original Language Flag -->
                                     <li class="movie-original-language">
                                         <strong>Original Language:</strong>
                                         <div class="flag-container">
@@ -75,6 +84,7 @@
                                         </div>
                                     </li>
 
+                                    <!-- Movie Rating Stars -->
                                     <ul class="rating-container">
                                         <li>
                                             <strong>Rating: </strong>
@@ -87,7 +97,7 @@
                                                 ★
                                             </span>
                                         </li>
-
+                                        <!-- Se non c'è un voto visualizza N.A -->
                                         <li v-else>
                                             <span> N.A.</span>
                                         </li>

@@ -78,14 +78,23 @@
 
 .movie-card{
     width: 230px;
-    height: 350px;
+    height: 450px;
     margin: 15px;
     font-size: 18px;
     list-style: none;
     padding: 5px;
-    border: 1px solid lightgrey;
+    border: 1px solid grey;
     border-radius: 4px;
     font-size: 15px;
+}
+
+.movie-poster-container{
+    text-align: center;
+    margin: 10px 0;
+}
+
+.movie-poster-container img{
+    border-radius: 3px;
 }
 
 .rating-container{

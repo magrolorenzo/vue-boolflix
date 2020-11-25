@@ -53,7 +53,9 @@ var app = new Vue({
 
         flags: ['cn', 'de', 'en', 'es', 'fr', 'it', 'ja', 'ko', 'no', 'ru'],
         api_key: "9288442951ff78eee0e3f39d2a7b597e",
-        db_root_path: "https://api.themoviedb.org/3/search/"
+        db_root_path: "https://api.themoviedb.org/3/search/",
+        img_root_path:"https://image.tmdb.org/t/p/w185/",
+        img_not_found: "./img/not_found.png"
     },
 
     methods:{
@@ -73,6 +75,7 @@ var app = new Vue({
                     }}
                 ).then((searched_movie) =>{
                     this.movies_array = (searched_movie.data.results);
+                    console.log(this.movies_array[0]);
                 });
 
                 // Get per recuperare la lista dei tv show
