@@ -61,8 +61,6 @@
     min-height: calc(100vh - 120px);
     padding: 40px;
     margin: auto;
-    /* border-left: 1px solid red;
-    border-right: 1px solid red; */
 }
 
 .text-results{
@@ -75,7 +73,6 @@
 }
 .movie-results{
     min-height: calc( 100% - 50px );
-    /* border: 2px solid lightgrey; */
 }
 
 /* Sezione card risultati */
@@ -110,9 +107,12 @@
     height: 100%;
     padding: 5px;
     position: absolute;
+    display: flex;
+    flex-direction: column;
 }
+
 .infos-container div{
-    margin: 10px 0;
+    margin: 3px 0;
 }
 
 .rating-container{
@@ -151,5 +151,7 @@
 }
 
 .overview-container{
-    font-size: 15px;
+    overflow-y: auto;
+    align-self:  flex-end;
+    height: 50%;
 }

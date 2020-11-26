@@ -61,8 +61,16 @@
                                 <!-- Singola card di un film -->
                                 <div class="movie-card" @mouseenter="show_info(index)" @mouseleave="show_poster()">
 
+                                    <!-- Poster movie -->
+                                    <div class="movie-poster-container" :class="poster_is_hide && index === current_card ? 'blur' : 'show'" >
+                                        <img v-if="movie.poster_path" :src="img_root_path + movie.poster_path" alt="">
+                                        <img v-else :src="img_not_found" alt="">
+                                    </div>
+
+
+
                                     <!-- Contenitore di tutte le info da nascondere / mostrare -->
-                                    <div class="infos-container " :class="poster_is_hide && index === current_card ? 'show' : 'hide'" >
+                                    <div class="infos-container" :class="poster_is_hide && index === current_card ? 'show' : 'hide'" >
                                         <!-- Movie Title -->
                                         <div class="movie-title">
                                             <strong>Title:</strong>{{movie.title ? movie.title : movie.name}}
@@ -108,11 +116,7 @@
 
                                     </div>
 
-                                    <!-- Poster movie -->
-                                    <div class="movie-poster-container" :class="poster_is_hide && index === current_card ? 'blur' : 'show'" >
-                                        <img v-if="movie.poster_path" :src="img_root_path + movie.poster_path" alt="">
-                                        <img v-else :src="img_not_found" alt="">
-                                    </div>
+
 
                                 <!-- Chiusura Movie Card -->
                                 </div>
