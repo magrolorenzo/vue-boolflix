@@ -49,9 +49,10 @@ var app = new Vue({
         // Array dei risultati totali
         total_array: [],
 
+        genres_array: [],
+
         isSearching: false,
 
-        star_char: "★",
         flags: ['cn', 'de', 'en', 'es', 'fr', 'it', 'ja', 'ko', 'no', 'ru'],
         api_key: "9288442951ff78eee0e3f39d2a7b597e",
         db_root_path: "https://api.themoviedb.org/3/search/",
@@ -114,8 +115,53 @@ var app = new Vue({
         show_poster(){
             this.current_card = false;
             this.poster_is_hide =  false;
-        }
+        },
 
+        get_genres(genre_ids){
+
+            let genres_string = "";
+
+
+            this.genres_array.forEach(genre => {
+                genre_ids.forEach(genre_id => {
+                    // Confronta ogni id del film con l array del genere
+                    if(genre_id == genre.id){
+                        console.log("found");
+                        // Quando trova corrispondenza aggiunge il nome del genre alla stringa
+                        if (genres_string.length == 0) {
+                            genres_string = genres_string + genre.name;
+                        }else{
+                            genres_string = genres_string + ", " + genre.name;
+                        };
+                    };
+
+                });
+
+            });
+            return genres_string;
+        },
+
+    }, // Chiusura Methods
+
+    mounted(){
+
+        // Recupero i genri dei film
+        axios.get(("https://api.themoviedb.org/3/genre/movie/list") , {
+            params: {
+                api_key: this.api_key
+            }}
+        ).then((all_movie_genres) =>{
+            this.genres_array = all_movie_genres.data.genres;
+        });
+
+        // Recupero i generi dei TV shows
+        axios.get(("https://api.themoviedb.org/3/genre/tv/list") , {
+            params: {
+                api_key: this.api_key
+            }}
+        ).then((all_tv_genres) =>{
+            // Concateno i due array
+            this.genres_array = this.genres_array.concat(all_tv_genres.data.genres);
+        });
     }
-
 })

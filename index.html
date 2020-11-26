@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
         <link rel="stylesheet" href="assets/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -15,7 +15,9 @@
         <div id="root">
 
             <div class="container">
+
                 <nav id="navbar">
+                    <!-- Logo container in alto a sinistra -->
                     <div class="logo-container">
                         <img src="./img/boolflix.png" alt="">
                     </div>
@@ -32,7 +34,7 @@
 
                 <div class="find-a-movie">
 
-
+                    <!-- Output di ricerca -->
                     <div class="text-results">
 
                         <h2 v-if="isSearching">
@@ -51,9 +53,9 @@
 
                     </div>
 
+                    <!-- Contenitore delle card dei film -->
                     <div class="movie-results">
 
-                        <!-- Contenitore delle card dei film -->
                         <div class="movies-wrapper">
                             <!-- Ad ogni li corrisponde un risultato -->
                             <div v-for="(movie, index) in total_array" >
@@ -66,8 +68,6 @@
                                         <img v-if="movie.poster_path" :src="img_root_path + movie.poster_path" alt="">
                                         <img v-else :src="img_not_found" alt="">
                                     </div>
-
-
 
                                     <!-- Contenitore di tutte le info da nascondere / mostrare -->
                                     <div class="infos-container" :class="poster_is_hide && index === current_card ? 'show' : 'hide'" >
@@ -90,6 +90,13 @@
                                             </div>
                                         </div>
 
+                                        <!-- Movie Original Language Flag -->
+                                        <div class="movie-genres">
+                                            <strong>Genres:</strong><span>
+                                                {{get_genres(movie.genre_ids)}}
+                                            </span>
+                                        </div>
+
                                         <!-- Movie Rating Stars -->
                                         <div class="rating-container">
                                             <div>
@@ -97,10 +104,10 @@
                                             </div>
                                             <div class="stars-container" v-if="movie.vote_average > 0">
                                                 <span class="yellow star" v-for="star in get_score(movie.vote_average)">
-                                                    {{star_char}}
+                                                    <i class="fas fa-star"></i>
                                                 </span>
                                                 <span class="star"v-for="star in (5 - get_score(movie.vote_average))">
-                                                    {{star_char}}
+                                                    <i class="fas fa-star"></i>
                                                 </span>
                                             </div>
                                             <!-- Se non c'è un voto visualizza N.A -->
