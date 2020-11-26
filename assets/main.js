@@ -80,7 +80,7 @@ var app = new Vue({
                     }}
                 ).then((searched_movie) =>{
                     this.movies_array = (searched_movie.data.results);
-                    console.log(this.movies_array[0]);
+
                 });
 
                 // Get per recuperare la lista dei tv show
@@ -96,6 +96,14 @@ var app = new Vue({
                     this.isSearching = false;
                     this.search = "";
 
+                    // Mi creo all'interno di ogni oggetto film due stringhe per visualizzare generi e 5 attori
+                    this.total_array.forEach((movie) => {
+                        movie.mainActors = "";
+                        movie.mainActors = this.get_credits(movie.id);
+                        movie.genres_string = this.get_genres(movie.genre_ids);
+                    });
+
+                    console.log(this.total_array[0]);
 
                 });
             }
@@ -118,11 +126,11 @@ var app = new Vue({
         },
 
         get_genres(genre_ids){
-
+            //  genre_id = [ 100 , ]
             let genres_string = "";
 
-            this.genres_array.forEach(genre => {
                 genre_ids.forEach(genre_id => {
+                    this.genres_array.forEach((genre, index) => {
                     // Confronta ogni id del film con l array del genere
                     if(genre_id == genre.id){
                         console.log("found");
@@ -133,9 +141,7 @@ var app = new Vue({
                             genres_string = genres_string + ", " + genre.name;
                         };
                     };
-
                 });
-
             });
             return genres_string;
         },
@@ -143,16 +149,19 @@ var app = new Vue({
         get_credits(id){
 
             let credits_string = "";
+
             axios.get(("https://api.themoviedb.org/3/movie/" + id + "/credits") , {
                 params: {
                     api_key: this.api_key
                 }}
             ).then((credits) =>{
                 for (var i = 0; i < 5; i++) {
-                    credits_string += credits_string + ", " + credits.data.cast[i].name;
+                    // console.log(credits.data.cast[i].name);
+                    credits_string = credits_string + ", " + credits.data.cast[i].name;
                 };
+                // console.log("Stringa attori " + credits_string);
+                return credits_string;
             });
-            return credits_string;
         }
 
     }, // Chiusura Methods
@@ -175,7 +184,9 @@ var app = new Vue({
             }}
         ).then((all_tv_genres) =>{
             // Concateno i due array
+
             this.genres_array = this.genres_array.concat(all_tv_genres.data.genres);
+            console.log(this.genres_array.sort());
         });
     }
 })

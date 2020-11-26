@@ -93,14 +93,14 @@
                                         <!-- Movie genres -->
                                         <div class="movie-genres">
                                             <strong>Genres:</strong><span>
-                                                {{get_genres(movie.genre_ids)}}
+                                                {{ movie.genres_string }}
                                             </span>
                                         </div>
 
                                         <!-- Credits -->
                                         <div class="movie-credits">
                                             <strong>Actors:</strong><span>
-                                                {{get_credits(movie.id)}}
+                                                {{ movie.mainActors }}
                                             </span>
                                         </div>
 
