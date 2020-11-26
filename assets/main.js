@@ -121,7 +121,6 @@ var app = new Vue({
 
             let genres_string = "";
 
-
             this.genres_array.forEach(genre => {
                 genre_ids.forEach(genre_id => {
                     // Confronta ogni id del film con l array del genere
@@ -140,6 +139,21 @@ var app = new Vue({
             });
             return genres_string;
         },
+
+        get_credits(id){
+
+            let credits_string = "";
+            axios.get(("https://api.themoviedb.org/3/movie/" + id + "/credits") , {
+                params: {
+                    api_key: this.api_key
+                }}
+            ).then((credits) =>{
+                for (var i = 0; i < 5; i++) {
+                    credits_string += credits_string + ", " + credits.data.cast[i].name;
+                };
+            });
+            return credits_string;
+        }
 
     }, // Chiusura Methods
 

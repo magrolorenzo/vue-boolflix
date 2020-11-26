@@ -90,10 +90,17 @@
                                             </div>
                                         </div>
 
-                                        <!-- Movie Original Language Flag -->
+                                        <!-- Movie genres -->
                                         <div class="movie-genres">
                                             <strong>Genres:</strong><span>
                                                 {{get_genres(movie.genre_ids)}}
+                                            </span>
+                                        </div>
+
+                                        <!-- Credits -->
+                                        <div class="movie-credits">
+                                            <strong>Actors:</strong><span>
+                                                {{get_credits(movie.id)}}
                                             </span>
                                         </div>
 
