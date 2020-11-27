@@ -48,8 +48,11 @@ var app = new Vue({
         tv_array: [],
         // Array dei risultati totali
         total_array: [],
+        // Array di tutti i generi di Movies e TV shows
+        all_genres: [],
 
-        genres_array: [],
+        // id:movie + array text generi + array 5 attori
+        additional_infos :[],
 
         isSearching: false,
 
@@ -72,6 +75,15 @@ var app = new Vue({
                 this.isSearching = true;
                 this.text_searched = this.search;
 
+                // Array dei risultati movie
+                this.movies_array = [],
+                // Array dei risultati dei TV show
+                this.tv_array = [],
+                // Array dei risultati totali
+                this.total_array = [],
+                // id:movie + array text generi + array 5 attori
+                this.additional_infos = [],
+
                 // Get per recuperare la lista dei film
                 axios.get((this.db_root_path + "movie") , {
                     params: {
@@ -80,7 +92,8 @@ var app = new Vue({
                     }}
                 ).then((searched_movie) =>{
                     this.movies_array = (searched_movie.data.results);
-
+                    // Aggiungo all array finale i risultati dei film
+                    this.total_array = this.total_array.concat(this.movies_array);
                 });
 
                 // Get per recuperare la lista dei tv show
@@ -91,19 +104,22 @@ var app = new Vue({
                     }}
                 ).then((searched_tv_show) =>{
                     this.tv_array = (searched_tv_show.data.results);
-                    // Concateno i due array dei risultati dei film e tv shows
-                    this.total_array = this.movies_array.concat(this.tv_array);
+
+                    // Concateno i due array dei risultati dei film e tv shows nell array finale
+                    this.total_array = this.total_array.concat(this.tv_array);
                     this.isSearching = false;
                     this.search = "";
 
                     // Mi creo all'interno di ogni oggetto film due stringhe per visualizzare generi e 5 attori
                     this.total_array.forEach((movie) => {
-                        movie.mainActors = "";
-                        movie.mainActors = this.get_credits(movie.id);
-                        movie.genres_string = this.get_genres(movie.genre_ids);
-                    });
 
-                    console.log(this.total_array[0]);
+                        this.additional_infos.push(this.get_add_infos(movie));
+                        // movie.genres_string = this.get_genres(movie.genre_ids);
+                        // movie.mainActors = this.get_credits(movie.id);
+                    });
+                    console.log(this.additional_infos);
+
+                    // console.log(this.total_array[0]);
 
                 });
             }
@@ -125,24 +141,47 @@ var app = new Vue({
             this.poster_is_hide =  false;
         },
 
+        get_add_infos(movie){
+
+            let add_info_obj ={
+                id: movie.id,
+                genres: this.get_genres(movie.genre_ids),
+                main_actors:[]
+            }
+
+            return add_info_obj;
+        },
+
         get_genres(genre_ids){
-            //  genre_id = [ 100 , ]
-            let genres_string = "";
+            //  genre_id = [ 100 , 45 ]
+            let genres = [];
 
                 genre_ids.forEach(genre_id => {
-                    this.genres_array.forEach((genre, index) => {
+                    this.all_genres.forEach((genre, index) => {
                     // Confronta ogni id del film con l array del genere
                     if(genre_id == genre.id){
                         console.log("found");
                         // Quando trova corrispondenza aggiunge il nome del genre alla stringa
-                        if (genres_string.length == 0) {
-                            genres_string = genres_string + genre.name;
-                        }else{
-                            genres_string = genres_string + ", " + genre.name;
-                        };
+                        genres.push(genre.name);
+                        // if (genres_string.length == 0) {
+                        //     genres_string = genres_string + genre.name;
+                        // }else{
+                        //     genres_string = genres_string + ", " + genre.name;
+                        // };
                     };
                 });
             });
+            return genres;
+        },
+
+        print_genres_string(id){
+            let genres_string = "";
+
+            for (var i = 0; i < this.additional_infos.length; i++) {
+                if(id == this.additional_infos[i].id){
+                    genres_string = this.additional_infos[i].genres.join(" / ");
+                };
+            };
             return genres_string;
         },
 
@@ -168,25 +207,41 @@ var app = new Vue({
 
     mounted(){
 
-        // Recupero i genri dei film
+        // Recupero i generi dei film
         axios.get(("https://api.themoviedb.org/3/genre/movie/list") , {
             params: {
                 api_key: this.api_key
             }}
         ).then((all_movie_genres) =>{
-            this.genres_array = all_movie_genres.data.genres;
+            let movie_genres = all_movie_genres.data.genres;
+
+            // Recupero i generi dei TV shows
+            axios.get(("https://api.themoviedb.org/3/genre/tv/list") , {
+                params: {
+                    api_key: this.api_key
+                }}
+            ).then((all_tv_genres) =>{
+                // Concateno i due array
+                let tv_genres = all_tv_genres.data.genres;
+
+                // Una volta recuperati sia i generi dei film e tv show procedo con il merge
+                this.all_genres = movie_genres;
+
+                tv_genres.forEach(tv_genre => {
+                    let genre_found = false;
+                    this.all_genres.forEach(genre => {
+                        if(genre.id == tv_genre.id){
+                            genre_found = true;
+                        }
+                    });
+                    if(genre_found == false){
+                        this.all_genres.push(tv_genre);
+                    }
+                });
+            });
         });
 
-        // Recupero i generi dei TV shows
-        axios.get(("https://api.themoviedb.org/3/genre/tv/list") , {
-            params: {
-                api_key: this.api_key
-            }}
-        ).then((all_tv_genres) =>{
-            // Concateno i due array
 
-            this.genres_array = this.genres_array.concat(all_tv_genres.data.genres);
-            console.log(this.genres_array.sort());
-        });
+
     }
 })
