@@ -101,7 +101,7 @@
                                         <!-- Credits -->
                                         <div class="movie-credits">
                                             <strong>Actors:</strong><span>
-                                                {{ }}
+                                                {{ print_actors_string(movie.id) }}
                                             </span>
                                         </div>
 
@@ -126,7 +126,7 @@
 
                                         <!-- Overview -->
                                         <div class="overview-container">
-                                            <strong>Overview:<br></strong>{{movie.overview}}
+                                            <strong>Overview:<br></strong>{{movie.overview ? movie.overview : "N.A." }}
                                         </div>
 
                                     </div>

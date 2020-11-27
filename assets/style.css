@@ -155,6 +155,5 @@
 
 .overview-container{
     overflow-y: auto;
-    align-self:  flex-end;
     height: 70%;
 }
