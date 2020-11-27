@@ -60,18 +60,18 @@ var app = new Vue({
                             }}
                         ).then((credits) =>{
                             let five_actors = [];
-                            // let i = 0;
+                            let i = 0;
 
-                            for (var i = 0; i < 5 && credits.data.cast[i].name; i++) {
-                                let name = credits.data.cast[i].name;
-                                five_actors.push(name);
-                            }
-                            //
-                            // do{
+                            // for (var i = 0; i < 5 && credits.data.cast[i].name; i++) {
                             //     let name = credits.data.cast[i].name;
                             //     five_actors.push(name);
-                            //     i++;
-                            // } while (credits.data.cast[i].name && i<5)
+                            // }
+                            //
+                            do{
+                                let name = credits.data.cast[i].name;
+                                five_actors.push(name);
+                                i++;
+                            } while (credits.data.cast[i].name && i<5)
 
                             console.log(five_actors);
                             this.additional_infos.push(this.get_add_infos(movie, five_actors));
@@ -103,18 +103,18 @@ var app = new Vue({
                             }}
                         ).then((credits) =>{
                             let five_actors = [];
-                            // let i = 0;
+                            let i = 0;
 
-                            for (var i = 0; i < 5 && credits.data.cast[i].name!= null; i++) {
-                                let name = credits.data.cast[i].name;
-                                five_actors.push(name);
-                            }
-
-                            // do{
+                            // for (var i = 0; i < 5 && credits.data.cast[i].name!= null; i++) {
                             //     let name = credits.data.cast[i].name;
                             //     five_actors.push(name);
-                            //     i++;
-                            // } while (credits.data.cast[i].name && i < 5)
+                            // }
+
+                            do{
+                                let name = credits.data.cast[i].name;
+                                five_actors.push(name);
+                                i++;
+                            } while (credits.data.cast[i].name && i < 5)
 
                             console.log(five_actors);
                             this.additional_infos.push(this.get_add_infos(tv_show, five_actors))
