@@ -67,10 +67,14 @@
     height: 50px;
     padding: 10px;
 }
+.red{
+    color: #e50913;
+}
 
 .searched{
     font-style: italic;
 }
+
 .movie-results{
     min-height: calc( 100% - 50px );
 }

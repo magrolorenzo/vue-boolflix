@@ -41,7 +41,7 @@
                             Ricerca in corso ...
                         </h2>
                         <h2 v-else-if="text_searched && total_array.length">
-                            Risultati di ricerca per: <span class="searched">
+                            Risultati di ricerca per: <span class="searched red">
                                 {{this.text_searched}}
                             </span>
                         </h2>
@@ -73,17 +73,17 @@
                                     <div class="infos-container" :class="poster_is_hide && index === current_card ? 'show' : 'hide'" >
                                         <!-- Movie Title -->
                                         <div class="movie-title">
-                                            <strong>Title:</strong>{{movie.title ? movie.title : movie.name}}
+                                            <strong class="red">Title:</strong>{{movie.title ? movie.title : movie.name}}
                                         </div>
 
                                         <!-- Movie Original Title -->
                                         <div class="movie-original-title">
-                                            <strong>Original Title:</strong>{{movie.original_title ? movie.original_title : movie.original_name}}
+                                            <strong class="red">Original Title:</strong>{{movie.original_title ? movie.original_title : movie.original_name}}
                                         </div>
 
                                         <!-- Movie Original Language Flag -->
                                         <div class="movie-original-language">
-                                            <strong>Original Language:</strong>
+                                            <strong class="red">Original Language:</strong>
                                             <div class="flag-container">
                                                 <img v-if="flags.includes(movie.original_language)" class="flag-img" :src="'./img/flags/'+movie.original_language+'.png'" :alt="movie.original_language">
                                                 <span v-else>{{movie.original_language}}</span>
@@ -92,7 +92,7 @@
 
                                         <!-- Movie genres -->
                                         <div class="movie-genres">
-                                            <strong>Genres:</strong>
+                                            <strong class="red">Genres:</strong>
                                             <span>
                                                 {{ print_genres_string(movie.id) }}
                                             </span>
@@ -100,7 +100,7 @@
 
                                         <!-- Credits -->
                                         <div class="movie-credits">
-                                            <strong>Actors:</strong><span>
+                                            <strong class="red">Actors:</strong><span>
                                                 {{ print_actors_string(movie.id) }}
                                             </span>
                                         </div>
@@ -108,7 +108,7 @@
                                         <!-- Movie Rating Stars -->
                                         <div class="rating-container">
                                             <div>
-                                                <strong>Rating: </strong>
+                                                <strong class="red">Rating: </strong>
                                             </div>
                                             <div class="stars-container" v-if="movie.vote_average > 0">
                                                 <span class="yellow star" v-for="star in get_score(movie.vote_average)">
@@ -126,7 +126,7 @@
 
                                         <!-- Overview -->
                                         <div class="overview-container">
-                                            <strong>Overview:<br></strong>{{movie.overview ? movie.overview : "N.A." }}
+                                            <strong class="red">Overview:<br></strong>{{movie.overview ? movie.overview : "N.A." }}
                                         </div>
 
                                     </div>

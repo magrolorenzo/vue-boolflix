@@ -51,6 +51,34 @@ var app = new Vue({
                     let movies_array = (searched_movie.data.results);
                     // Aggiungo all array finale i risultati dei film
                     this.total_array = this.total_array.concat(movies_array);
+
+                    // Effettuo subito chiamata axios per recupero di al massimo 5 attori
+                    movies_array.forEach((movie) => {
+                        axios.get( ("https://api.themoviedb.org/3/movie/" + movie.id + "/credits") , {
+                            params: {
+                                api_key: this.api_key
+                            }}
+                        ).then((credits) =>{
+                            let five_actors = [];
+                            // let i = 0;
+
+                            for (var i = 0; i < 5 && credits.data.cast[i].name; i++) {
+                                let name = credits.data.cast[i].name;
+                                five_actors.push(name);
+                            }
+                            //
+                            // do{
+                            //     let name = credits.data.cast[i].name;
+                            //     five_actors.push(name);
+                            //     i++;
+                            // } while (credits.data.cast[i].name && i<5)
+
+                            console.log(five_actors);
+                            this.additional_infos.push(this.get_add_infos(movie, five_actors));
+                        });
+                    });
+
+
                 });
 
                 // Get per recuperare la lista dei tv show
@@ -67,15 +95,32 @@ var app = new Vue({
                     this.isSearching = false;
                     this.search = "";
 
-                    // Mi creo all'interno di ogni oggetto film due stringhe per visualizzare generi e 5 attori
-                    this.total_array.forEach((movie) => {
-                        this.additional_infos.push(this.get_add_infos(movie));
-                    });
+                    // Effettuo subito chiamata axios per recupero di al massimo 5 attori
+                    tv_array.forEach((tv_show) => {
+                        axios.get( ("https://api.themoviedb.org/3/tv/" + tv_show.id + "/credits") , {
+                            params: {
+                                api_key: this.api_key
+                            }}
+                        ).then((credits) =>{
+                            let five_actors = [];
+                            // let i = 0;
 
-                    console.log("Lunghezza additional infos: " + this.additional_infos.length);
-                    console.log(this.additional_infos);
-                    console.log("Lunghezza total array: " + this.total_array.length);
-                    console.log(this.total_array);
+                            for (var i = 0; i < 5 && credits.data.cast[i].name!= null; i++) {
+                                let name = credits.data.cast[i].name;
+                                five_actors.push(name);
+                            }
+
+                            // do{
+                            //     let name = credits.data.cast[i].name;
+                            //     five_actors.push(name);
+                            //     i++;
+                            // } while (credits.data.cast[i].name && i < 5)
+
+                            console.log(five_actors);
+                            this.additional_infos.push(this.get_add_infos(tv_show, five_actors))
+                            // return five_actors;
+                        });
+                    });
 
                 });
             }
@@ -98,11 +143,11 @@ var app = new Vue({
         },
 
         // Funzione per creazione oggetto di info addizionali nel array additional info
-        get_add_infos(movie){
+        get_add_infos(movie, five_actors){
 
             let new_id = movie.id;
             let new_genres = this.get_genres(movie.genre_ids);
-            let new_actors = this.get_credits(movie);
+            let new_actors = five_actors
 
             let add_info_obj ={
                 id: new_id,
@@ -140,65 +185,13 @@ var app = new Vue({
             return genres_string;
         },
 
-        // Funzione per recupero dei primi 5 nomi di attori del film
-        get_credits(movie){
-
-            let id = movie.id;
-            let five_actors = [];
-            let i = 0;
-
-            // Se ha la proprietà Title , quindi è un film, fai la chiamata credit per i movies
-            if(movie.title){
-                axios.get( ("https://api.themoviedb.org/3/movie/" + id + "/credits") , {
-                    params: {
-                        api_key: this.api_key
-                    }}
-                ).then((credits) =>{
-                    do{
-                        let name = credits.data.cast[i].name;
-                        // console.log(name);
-                        five_actors.push(name);
-                        i++;
-                    } while (credits.data.cast[i].name && i<5)
-
-                    // for (var i = 0; i < 5; i++) {
-                    //     let name = credits.data.cast[i].name;
-                    //     // console.log(name);
-                    //     five_actors.push(name);
-                    // };
-                    console.log(five_actors);
-                    return five_actors;
-                });
-            } else { // Se non ha title, ma ha name, saraà un tv show
-                axios.get( ("https://api.themoviedb.org/3/tv/" + id + "/credits") , {
-                    params: {
-                        api_key: this.api_key
-                    }}
-                ).then((credits) =>{
-                    do{
-                        let name = credits.data.cast[i].name;
-                        // console.log(name);
-                        five_actors.push(name);
-                        i++;
-                    } while (credits.data.cast[i].name && i<5)
-                    // for (var i = 0; i < 5; i++) {
-                    //     let name = credits.data.cast[i].name;
-                    //     // console.log(name);
-                    //     five_actors.push(name);
-                    // };
-                    console.log(five_actors);
-                    return five_actors;
-                });
-            }
-        },
-
         // Stampa a video della stringa di attori
         print_actors_string(id){
             let actors_string = "";
 
             for (var i = 0; i < this.additional_infos.length; i++) {
                 if(id == this.additional_infos[i].id){
-                    actors_string = this.additional_infos[i].main_actors;
+                    actors_string = this.additional_infos[i].main_actors.join(", ");
                 };
             };
             return actors_string;
