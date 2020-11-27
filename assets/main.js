@@ -102,7 +102,7 @@ var app = new Vue({
 
             let new_id = movie.id;
             let new_genres = this.get_genres(movie.genre_ids);
-            let new_actors = this.get_credits(movie.id);
+            let new_actors = this.get_credits(movie);
 
             let add_info_obj ={
                 id: new_id,
@@ -141,21 +141,41 @@ var app = new Vue({
         },
 
         // Funzione per recupero dei primi 5 nomi di attori del film
-        get_credits(id){
+        get_credits(movie){
 
-            axios.get( ("https://api.themoviedb.org/3/movie/" + id + "/credits") , {
-                params: {
-                    api_key: this.api_key
-                }}
-            ).then((credits) =>{
-                let five_actors = "";
-                for (var i = 0; i < 5; i++) {
-                    let name = credits.data.cast[i].name;
-                    console.log(name);
-                    five_actors = five_actors + ", " + name;
-                };
-                return five_actors;
-            });
+            let id = movie.id;
+            let five_actors = [];
+
+            // Se ha la proprietà Title , quindi è un film, fai la chiamata credit per i movies
+            if(movie.title){
+                axios.get( ("https://api.themoviedb.org/3/movie/" + id + "/credits") , {
+                    params: {
+                        api_key: this.api_key
+                    }}
+                ).then((credits) =>{
+                    for (var i = 0; i < 5; i++) {
+                        let name = credits.data.cast[i].name;
+                        // console.log(name);
+                        five_actors.push(name);
+                    };
+                    console.log(five_actors);
+                    return five_actors;
+                });
+            } else { // Se non ha title, ma ha name, saraà un tv show 
+                axios.get( ("https://api.themoviedb.org/3/tv/" + id + "/credits") , {
+                    params: {
+                        api_key: this.api_key
+                    }}
+                ).then((credits) =>{
+                    for (var i = 0; i < 5; i++) {
+                        let name = credits.data.cast[i].name;
+                        // console.log(name);
+                        five_actors.push(name);
+                    };
+                    console.log(five_actors);
+                    return five_actors;
+                });
+            }
         },
 
         // Stampa a video della stringa di attori
