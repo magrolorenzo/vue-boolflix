@@ -145,6 +145,7 @@ var app = new Vue({
 
             let id = movie.id;
             let five_actors = [];
+            let i = 0;
 
             // Se ha la proprietà Title , quindi è un film, fai la chiamata credit per i movies
             if(movie.title){
@@ -153,25 +154,38 @@ var app = new Vue({
                         api_key: this.api_key
                     }}
                 ).then((credits) =>{
-                    for (var i = 0; i < 5; i++) {
+                    do{
                         let name = credits.data.cast[i].name;
                         // console.log(name);
                         five_actors.push(name);
-                    };
+                        i++;
+                    } while (credits.data.cast[i].name && i<5)
+
+                    // for (var i = 0; i < 5; i++) {
+                    //     let name = credits.data.cast[i].name;
+                    //     // console.log(name);
+                    //     five_actors.push(name);
+                    // };
                     console.log(five_actors);
                     return five_actors;
                 });
-            } else { // Se non ha title, ma ha name, saraà un tv show 
+            } else { // Se non ha title, ma ha name, saraà un tv show
                 axios.get( ("https://api.themoviedb.org/3/tv/" + id + "/credits") , {
                     params: {
                         api_key: this.api_key
                     }}
                 ).then((credits) =>{
-                    for (var i = 0; i < 5; i++) {
+                    do{
                         let name = credits.data.cast[i].name;
                         // console.log(name);
                         five_actors.push(name);
-                    };
+                        i++;
+                    } while (credits.data.cast[i].name && i<5)
+                    // for (var i = 0; i < 5; i++) {
+                    //     let name = credits.data.cast[i].name;
+                    //     // console.log(name);
+                    //     five_actors.push(name);
+                    // };
                     console.log(five_actors);
                     return five_actors;
                 });
