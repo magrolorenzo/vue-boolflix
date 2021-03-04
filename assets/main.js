@@ -51,33 +51,9 @@ var app = new Vue({
                     let movies_array = (searched_movie.data.results);
                     // Aggiungo all array finale i risultati dei film
                     this.total_array = this.total_array.concat(movies_array);
-
                     // Effettuo subito chiamata axios per recupero di al massimo 5 attori
-                    movies_array.forEach((movie) => {
-                        axios.get( ("https://api.themoviedb.org/3/movie/" + movie.id + "/credits") , {
-                            params: {
-                                api_key: this.api_key
-                            }}
-                        ).then((credits) =>{
-                            let five_actors = [];
-                            let i = 0;
 
-                            // for (var i = 0; i < 5 && credits.data.cast[i].name; i++) {
-                            //     let name = credits.data.cast[i].name;
-                            //     five_actors.push(name);
-                            // }
-                            //
-                            do{
-                                let name = credits.data.cast[i].name;
-                                five_actors.push(name);
-                                i++;
-                            } while (credits.data.cast[i].name && i<5)
-
-                            console.log(five_actors);
-                            this.additional_infos.push(this.get_add_infos(movie, five_actors));
-                        });
-                    });
-
+                    this.get_movies_credits(movies_array);
 
                 });
 
@@ -96,35 +72,84 @@ var app = new Vue({
                     this.search = "";
 
                     // Effettuo subito chiamata axios per recupero di al massimo 5 attori
-                    tv_array.forEach((tv_show) => {
-                        axios.get( ("https://api.themoviedb.org/3/tv/" + tv_show.id + "/credits") , {
-                            params: {
-                                api_key: this.api_key
-                            }}
-                        ).then((credits) =>{
-                            let five_actors = [];
-                            let i = 0;
 
-                            // for (var i = 0; i < 5 && credits.data.cast[i].name!= null; i++) {
-                            //     let name = credits.data.cast[i].name;
-                            //     five_actors.push(name);
-                            // }
+                    this.get_tv_credits(tv_array);
 
-                            do{
-                                let name = credits.data.cast[i].name;
-                                five_actors.push(name);
-                                i++;
-                            } while (credits.data.cast[i].name && i < 5)
-
-                            console.log(five_actors);
-                            this.additional_infos.push(this.get_add_infos(tv_show, five_actors))
-                            // return five_actors;
-                        });
-                    });
+                    console.log(this.total_array);
+                    console.log(this.additional_infos);
 
                 });
             }
         },
+
+        get_movies_credits(movies_array){
+            movies_array.forEach((movie) => {
+                axios.get( ("https://api.themoviedb.org/3/movie/" + movie.id + "/credits") , {
+                    params: {
+                        api_key: this.api_key
+                    }}
+                ).then((credits) =>{
+
+                    if(credits.data.cast.length != 0){
+
+                        console.log("Titolo: " + movie.original_title);
+
+                        console.log("Oggetto credits di " + movie.original_title);
+                        console.log(credits);
+
+                        let five_actors = [];
+                        let i = 0;
+                        do{
+                            console.log(i);
+                            // console.log("Nome " + i + ": " +credits.data.cast[i].name +"del film " + movie.original_title);
+                            let name = credits.data.cast[i].name;
+                            five_actors.push(name);
+                            console.log(five_actors);
+                            i++;
+                        } while (credits.data.cast[i].name && (i < 5))
+
+                        console.log("************");
+
+                        this.additional_infos.push(this.get_add_infos(movie, five_actors));
+                    }
+                });
+            });
+        },
+
+        get_tv_credits(tv_array){
+            tv_array.forEach((tv_show) => {
+                axios.get( ("https://api.themoviedb.org/3/tv/" + tv_show.id + "/credits") , {
+                    params: {
+                        api_key: this.api_key
+                    }}
+                ).then((credits) =>{
+                    if(credits.data.cast.length != 0){
+
+                        console.log("Titolo: " + tv_show.original_title);
+
+                        console.log("Oggetto credits di " + tv_show.original_title);
+                        console.log(credits);
+
+
+                        let five_actors = [];
+                        let i = 0;
+
+                        do{
+                            let name = credits.data.cast[i].name;
+                            five_actors.push(name);
+                            i++;
+                            console.log(i);
+                            console.log("tv");
+                        } while (credits.data.cast[i].name && (i < 5))
+
+                        this.additional_infos.push(this.get_add_infos(tv_show, five_actors))
+                    }
+                    // return five_actors;
+                });
+            });
+        },
+
+
 
         get_score(score){
             // TRasformo la stringa in numero con la virgola, divido per due e arrotondo
@@ -154,6 +179,7 @@ var app = new Vue({
                 genres: new_genres,
                 main_actors: new_actors
             };
+            console.log(add_info_obj);
             return add_info_obj;
         },
 
@@ -162,8 +188,8 @@ var app = new Vue({
             // Esempio di genre_ids = [ 100 , 45 ]
             let genres = [];
 
-                genre_ids.forEach(genre_id => {
-                    this.all_genres.forEach((genre, index) => {
+            genre_ids.forEach(genre_id => {
+                this.all_genres.forEach((genre, index) => {
                     // Confronta ogni id del film con l array del genere
                     if(genre_id == genre.id){
                         // Quando trova corrispondenza aggiunge il nome del genre alla stringa
@@ -236,6 +262,18 @@ var app = new Vue({
         });
 
 
-
+        // Ricerca iniziale dei Film di tendenza della settimana
+        axios.get(("https://api.themoviedb.org/3/trending/movie/week"), {
+            params: {
+                api_key: this.api_key
+            }}
+        ).then(response => {
+            let movies_array = (response.data.results);
+            // Aggiungo all array finale i risultati dei film
+            this.total_array = this.total_array.concat(movies_array);
+            console.log(this.total_array);
+            // Effettuo subito chiamata axios per recupero di al massimo 5 attori
+            this.get_movies_credits(movies_array);
+        });
     }
 })

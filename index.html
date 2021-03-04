@@ -1,148 +1,151 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-        <title>Boolflix</title>
-    </head>
-    <body>
-        <div id="root">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300&display=swap" rel="stylesheet">
 
-            <div class="container">
 
-                <nav id="navbar">
-                    <!-- Logo container in alto a sinistra -->
-                    <div class="logo-container">
-                        <img src="./img/boolflix.png" alt="">
-                    </div>
 
-                    <!-- Sezione barra di ricerca film -->
-                    <div class="search-section">
-                        <input type="text" placeholder="Find a movie..." v-model="search" id="search-bar" @keyup.enter="search_movie">
-                        <button type="button" name="button" @click="search_movie">
-                            Search
-                        </button>
-                    </div>
 
-                </nav>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <title>Boolflix</title>
+</head>
+<body>
+    <div id="root">
 
-                <div class="find-a-movie">
+        <div class="container">
 
-                    <!-- Output di ricerca -->
-                    <div class="text-results">
+            <nav id="navbar">
+                <!-- Logo container in alto a sinistra -->
+                <div class="logo-container">
+                    <img src="./img/boolflix.png" alt="">
+                </div>
 
-                        <h2 v-if="isSearching">
-                            Ricerca in corso ...
-                        </h2>
-                        <h2 v-else-if="text_searched && total_array.length">
-                            Risultati di ricerca per: <span class="searched red">
-                                {{this.text_searched}}
-                            </span>
-                        </h2>
-                        <h2 v-else-if="text_searched">
-                            Nessun risultato trovato per: <span class="searched">
-                                {{this.text_searched}}
-                            </span>
-                        </h2>
+                <!-- Sezione barra di ricerca film -->
+                <div class="search-section">
+                    <input type="text" placeholder="Find a movie..." v-model="search" id="search-bar" @keyup.enter="search_movie">
+                    <button type="button" name="button" @click="search_movie">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
 
-                    </div>
+            </nav>
 
-                    <!-- Contenitore delle card dei film -->
-                    <div class="movie-results">
+            <div class="find-a-movie">
 
-                        <div class="movies-wrapper">
-                            <!-- Ad ogni li corrisponde un risultato -->
-                            <div v-for="(movie, index) in total_array" >
+                <!-- Output di ricerca -->
+                <div class="text-results">
 
-                                <!-- Singola card di un film -->
-                                <div class="movie-card" @mouseenter="show_info(index)" @mouseleave="show_poster()">
+                    <h2 v-if="isSearching">
+                        Ricerca in corso ...
+                    </h2>
+                    <h2 v-else-if="text_searched && total_array.length">
+                        Risultati di ricerca per: <span class="searched red">
+                            {{this.text_searched}}
+                        </span>
+                    </h2>
+                    <h2 v-else-if="text_searched">
+                        Nessun risultato trovato per: <span class="searched">
+                            {{this.text_searched}}
+                        </span>
+                    </h2>
+                    <h2 v-else>
+                        I Film consigliati della settimana
+                    </h2>
 
-                                    <!-- Poster movie -->
-                                    <div class="movie-poster-container" :class="poster_is_hide && index === current_card ? 'blur' : 'show'" >
-                                        <img v-if="movie.poster_path" :src="img_root_path + movie.poster_path" alt="">
-                                        <img v-else :src="img_not_found" alt="">
+                </div>
+
+                <!-- Contenitore delle card dei film -->
+                <div class="movie-results">
+
+                    <div class="movies-wrapper">
+                        <!-- Ad ogni li corrisponde un risultato -->
+                        <div v-for="(movie, index) in total_array" >
+
+                            <!-- Singola card di un film -->
+                            <div class="movie-card" @mouseenter="show_info(index)" @mouseleave="show_poster()">
+
+                                <!-- Poster movie -->
+                                <div class="movie-poster-container" :class="poster_is_hide && index === current_card ? 'blur' : 'show'" >
+                                    <img v-if="movie.poster_path" :src="img_root_path + movie.poster_path" alt="">
+                                    <img v-else :src="img_not_found" alt="">
+                                </div>
+
+                                <!-- Contenitore di tutte le info da nascondere / mostrare -->
+                                <div class="infos-container" :class="poster_is_hide && index === current_card ? 'show' : 'hide'" >
+                                    <!-- Movie Title -->
+                                    <div class="movie-title">
+                                        <strong class="red">Title: </strong>{{movie.title ? movie.title : movie.name}}
                                     </div>
 
-                                    <!-- Contenitore di tutte le info da nascondere / mostrare -->
-                                    <div class="infos-container" :class="poster_is_hide && index === current_card ? 'show' : 'hide'" >
-                                        <!-- Movie Title -->
-                                        <div class="movie-title">
-                                            <strong class="red">Title:</strong>{{movie.title ? movie.title : movie.name}}
-                                        </div>
-
-                                        <!-- Movie Original Title -->
-                                        <div class="movie-original-title">
-                                            <strong class="red">Original Title:</strong>{{movie.original_title ? movie.original_title : movie.original_name}}
-                                        </div>
-
-                                        <!-- Movie Original Language Flag -->
-                                        <div class="movie-original-language">
-                                            <strong class="red">Original Language:</strong>
-                                            <div class="flag-container">
-                                                <img v-if="flags.includes(movie.original_language)" class="flag-img" :src="'./img/flags/'+movie.original_language+'.png'" :alt="movie.original_language">
-                                                <span v-else>{{movie.original_language}}</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Movie genres -->
-                                        <div class="movie-genres">
-                                            <strong class="red">Genres:</strong>
-                                            <span>
-                                                {{ print_genres_string(movie.id) }}
-                                            </span>
-                                        </div>
-
-                                        <!-- Credits -->
-                                        <div class="movie-credits">
-                                            <strong class="red">Actors:</strong><span>
-                                                {{ print_actors_string(movie.id) }}
-                                            </span>
-                                        </div>
-
-                                        <!-- Movie Rating Stars -->
-                                        <div class="rating-container">
-                                            <div>
-                                                <strong class="red">Rating: </strong>
-                                            </div>
-                                            <div class="stars-container" v-if="movie.vote_average > 0">
-                                                <span class="yellow star" v-for="star in get_score(movie.vote_average)">
-                                                    <i class="fas fa-star"></i>
-                                                </span>
-                                                <span class="star"v-for="star in (5 - get_score(movie.vote_average))">
-                                                    <i class="fas fa-star"></i>
-                                                </span>
-                                            </div>
-                                            <!-- Se non c'è un voto visualizza N.A -->
-                                            <div v-else>
-                                                <span> N.A.</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Overview -->
-                                        <div class="overview-container">
-                                            <strong class="red">Overview:<br></strong>{{movie.overview ? movie.overview : "N.A." }}
-                                        </div>
-
+                                    <!-- Movie Original Title -->
+                                    <div class="movie-original-title">
+                                        <strong class="red">Original Title: </strong>{{movie.original_title ? movie.original_title : movie.original_name}}
                                     </div>
+
+                                    <!-- Movie Original Language Flag -->
+                                    <div class="movie-original-language">
+                                        <strong class="red">Original Language: </strong>
+                                        <div class="flag-container">
+                                            <img v-if="flags.includes(movie.original_language)" class="flag-img" :src="'./img/flags/'+movie.original_language+'.png'" :alt="movie.original_language">
+                                            <span v-else>{{movie.original_language}}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Movie genres -->
+                                    <div class="movie-genres">
+                                        <strong class="red">Genres: </strong>
+                                        <span>
+                                            {{ print_genres_string(movie.id) ? print_genres_string(movie.id) : "N.A." }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Credits -->
+                                    <div class="movie-credits">
+                                        <strong class="red">Actors:</strong><span>
+                                            {{ print_actors_string(movie.id) ? print_actors_string(movie.id) : "N.A." }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Movie Rating Stars -->
+                                    <div class="rating-container">
+                                        <div>
+                                            <strong class="red">Rating: </strong>
+                                        </div>
+                                        <div class="stars-container" v-if="movie.vote_average > 0">
+                                            <span class="yellow star" v-for="star in get_score(movie.vote_average)"><i class="fas fa-star"></i>
+                                            </span><span class="star"v-for="star in (5 - get_score(movie.vote_average))"><i class="fas fa-star"></i></span>
+                                        </div>
+                                        <!-- Se non c'è un voto visualizza N.A -->
+                                        <div v-else>
+                                            <span> N.A.</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Overview -->
+                                    <div class="overview-container">
+                                        <strong class="red">Overview:<br></strong>{{movie.overview ? movie.overview : "N.A." }}
+                                    </div>
+
+                                </div>
 
 
 
                                 <!-- Chiusura Movie Card -->
-                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
+
         </div>
-        <script src="assets/main.js" charset="utf-8"></script>
-    </body>
+    </div>
+    <script src="assets/main.js" charset="utf-8"></script>
+</body>
 </html>
