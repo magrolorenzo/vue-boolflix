@@ -52,7 +52,6 @@ var app = new Vue({
                     // Aggiungo all array finale i risultati dei film
                     this.total_array = this.total_array.concat(movies_array);
                     // Effettuo subito chiamata axios per recupero di al massimo 5 attori
-
                     this.get_movies_credits(movies_array);
 
                 });
@@ -72,11 +71,7 @@ var app = new Vue({
                     this.search = "";
 
                     // Effettuo subito chiamata axios per recupero di al massimo 5 attori
-
                     this.get_tv_credits(tv_array);
-
-                    console.log(this.total_array);
-                    console.log(this.additional_infos);
 
                 });
             }
@@ -92,23 +87,14 @@ var app = new Vue({
 
                     if(credits.data.cast.length != 0){
 
-                        console.log("Titolo: " + movie.original_title);
-
-                        console.log("Oggetto credits di " + movie.original_title);
-                        console.log(credits);
-
                         let five_actors = [];
                         let i = 0;
                         do{
-                            console.log(i);
                             // console.log("Nome " + i + ": " +credits.data.cast[i].name +"del film " + movie.original_title);
                             let name = credits.data.cast[i].name;
                             five_actors.push(name);
-                            console.log(five_actors);
                             i++;
                         } while (credits.data.cast[i].name && (i < 5))
-
-                        console.log("************");
 
                         this.additional_infos.push(this.get_add_infos(movie, five_actors));
                     }
@@ -125,12 +111,6 @@ var app = new Vue({
                 ).then((credits) =>{
                     if(credits.data.cast.length != 0){
 
-                        console.log("Titolo: " + tv_show.original_title);
-
-                        console.log("Oggetto credits di " + tv_show.original_title);
-                        console.log(credits);
-
-
                         let five_actors = [];
                         let i = 0;
 
@@ -138,13 +118,12 @@ var app = new Vue({
                             let name = credits.data.cast[i].name;
                             five_actors.push(name);
                             i++;
-                            console.log(i);
-                            console.log("tv");
+
                         } while (credits.data.cast[i].name && (i < 5))
 
                         this.additional_infos.push(this.get_add_infos(tv_show, five_actors))
                     }
-                    // return five_actors;
+
                 });
             });
         },
@@ -179,7 +158,7 @@ var app = new Vue({
                 genres: new_genres,
                 main_actors: new_actors
             };
-            console.log(add_info_obj);
+
             return add_info_obj;
         },
 
@@ -271,7 +250,6 @@ var app = new Vue({
             let movies_array = (response.data.results);
             // Aggiungo all array finale i risultati dei film
             this.total_array = this.total_array.concat(movies_array);
-            console.log(this.total_array);
             // Effettuo subito chiamata axios per recupero di al massimo 5 attori
             this.get_movies_credits(movies_array);
         });
